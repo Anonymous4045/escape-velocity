@@ -12,7 +12,7 @@ class MyGame(arcade.Window):
         print('Starting game...')
 
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-        arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
+        arcade.set_background_color(arcade.color.WHITE)
 
         self.scene: arcade.Scene = None
 
@@ -26,5 +26,12 @@ class MyGame(arcade.Window):
     def on_draw(self):
         '''Render the scene'''
 
+        self.clear()
+
         self.scene.draw()
+
+    def on_update(self, delta_time):
+        '''Update the scene'''
+
+        self.scene.update()
 
