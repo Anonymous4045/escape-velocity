@@ -1,6 +1,6 @@
-'''
+"""
 Constant values used by all modules.
-'''
+"""
 
 from pathlib import Path
 from loguru import logger
@@ -17,4 +17,3 @@ REPO_ROOT = Path(__file__).parent.parent
 ASSETS_DIR = REPO_ROOT / "assets"
 TILED_DIR = ASSETS_DIR / "tiled"
 LEVELS_DIR = TILED_DIR / "levels"
-
