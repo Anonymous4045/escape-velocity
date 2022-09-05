@@ -2,7 +2,9 @@
 Constant values used by all modules.
 """
 
+import math
 from pathlib import Path
+
 from loguru import logger
 
 import arcade
@@ -22,3 +24,6 @@ LEVELS_DIR = ASSETS_DIR / "levels"
 # Key presses
 pressed = set()
 
+# Player information
+PLAYER_SPEED = 100
+PLAYER_ROTATION = 0.05

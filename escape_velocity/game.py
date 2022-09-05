@@ -31,23 +31,20 @@ class MyGame(arcade.Window):
 
         self.scene = arcade.Scene()
 
-        self.physics_engine = arcade.PymunkPhysicsEngine(
-            gravity=(0, -1000)
-        )
+        self.physics_engine = arcade.PymunkPhysicsEngine(gravity=(0, -500))
 
         self.player = Player()
-        self.player.center_x = 200
-        self.player.center_y = 400
         self.scene.add_sprite("player", self.player)
 
         ground = Ground()
         self.scene.add_sprite("ground", ground)
         self.physics_engine.add_sprite(
-            ground, body_type=arcade.PymunkPhysicsEngine.STATIC, collision_type="ground", friction=0.5, mass=1, moment=1
+            ground, body_type=arcade.PymunkPhysicsEngine.STATIC, collision_type="ground"
         )
 
         # Add landing pads
-        for position in ((150, 200), (1200, 200)):
+        y = 235
+        for position in ((150, y), (1200, y)):
             landing_pad = LandingPad()
             landing_pad.center_x, landing_pad.center_y = position
             self.scene.add_sprite("landing_pad", landing_pad)
@@ -56,51 +53,71 @@ class MyGame(arcade.Window):
             self.scene["landing_pad"],
             body_type=arcade.PymunkPhysicsEngine.STATIC,
             collision_type="landing_pad",
+            # lots of friction
+            friction=100,
         )
 
         # Place player on landing pad
-        self.player.center_x, self.player.center_y = SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2
+        self.player.center_x, self.player.center_y = 150, 350
 
         # Enable physics for the player
         self.physics_engine.add_sprite_list(
-            self.scene["player"], body_type=arcade.PymunkPhysicsEngine.DYNAMIC, collision_type="player"
+            self.scene["player"],
+            body_type=arcade.PymunkPhysicsEngine.DYNAMIC,
+            collision_type="player",
+            # mars gravity
+            mass=0.11,
         )
 
         # Set up collision handlers
         self.physics_engine.add_collision_handler(
-            'player', 'ground', post_handler=self.player_ground_collision
+            "player", "ground", post_handler=self.player_ground_collision
         )
 
     def on_draw(self):
         """Render the scene"""
         self.clear()
 
-        # self.scene.draw()
-
-        # Show hit boxes
-        self.scene.draw_hit_boxes()
+        self.scene.draw()
 
     def on_update(self, delta_time):
         """Update the scene"""
 
+        self.move_player()
+
         self.scene.update()
 
-        self.physics_engine.step(
-            delta_time, True
-            )
+        self.physics_engine.step(delta_time, True)
 
     def on_key_press(self, key_code, modifiers):
-        '''Update set of pressed keys'''
+        """Update set of pressed keys"""
 
         pressed.add(key_code)
 
     def on_key_release(self, key_code, modifiers):
-        '''Update set of pressed keys'''
+        """Update set of pressed keys"""
 
         pressed.remove(key_code)
+
+    def move_player(self):
+        """Move the player"""
+
+        player_physics_object = self.physics_engine.get_physics_object(self.player)
+
+        # Rotate the player physics object
+        if k.LEFT in pressed:
+            player_physics_object.body.angle += PLAYER_ROTATION
+        if k.RIGHT in pressed:
+            player_physics_object.body.angle -= PLAYER_ROTATION
+
+        # Apply force upwards on the player
+        if k.UP in pressed:
+            self.physics_engine.apply_force(
+                self.player,
+                (0, PLAYER_SPEED * math.cos(math.radians(self.player.angle))),
+            )
 
     def player_ground_collision(self, *args, **kwargs):
         """Handle the player colliding with the ground"""
 
-        logger.debug("Player collided with ground")
-
+        self.setup()
