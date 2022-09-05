@@ -65,8 +65,8 @@ class MyGame(arcade.Window):
             self.scene["player"],
             body_type=arcade.PymunkPhysicsEngine.DYNAMIC,
             collision_type="player",
-            # mars gravity
             mass=0.11,
+            damping=0.5,
         )
 
         # Set up collision handlers
