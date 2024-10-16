@@ -4,7 +4,7 @@ This is the main game file. It contains the game class and all the game logic.
 
 import arcade
 
-from .constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, pressed
+from .constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
 from .sprites.level_sprites import Level
 from .sprites.player_sprites import Player
 
@@ -33,7 +33,7 @@ class MyGame(arcade.Window):
         self.scene = Level(self)
         self.player = Player(self)
 
-        self.pressed_keys = pressed
+        self.pressed_keys = set()
 
     def on_draw(self):
         """Render the scene"""
