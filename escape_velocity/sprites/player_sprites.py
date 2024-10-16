@@ -39,17 +39,22 @@ class Player(arcade.Sprite):
         player_physics_object = self.game.physics_engine.get_physics_object(self)
 
         # Rotate the player physics object
-        if k.LEFT in self.game.pressed_keys:
+        if self.check_pressed(k.LEFT, k.A):
             player_physics_object.body.angle += self.rotation
-        if k.RIGHT in self.game.pressed_keys:
+        if self.check_pressed(k.RIGHT, k.D):
             player_physics_object.body.angle -= self.rotation
 
         # Apply force upwards on the player
-        if k.UP in self.game.pressed_keys:
+        if self.check_pressed(k.UP, k.W, k.SPACE):
             self.game.physics_engine.apply_force(
                 self,
                 (0, PLAYER_SPEED * math.cos(math.radians(self.angle))),
             )
+
+    def check_pressed(self, *keys: list[int]):
+        """Checks if any of the given keys are pressed"""
+
+        return any(key in self.game.pressed_keys for key in keys)
 
     def apply_physics(self):
         self.game.physics_engine.add_sprite_list(
