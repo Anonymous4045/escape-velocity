@@ -12,7 +12,7 @@ import arcade
 def main():
     """Run the game"""
 
-    game = MyGame()
+    MyGame()
     arcade.run()
 
 

@@ -1,13 +1,15 @@
 [tool.poetry]
-name = "pyweek-34"
+name = "escape-velocity"
 version = "0.1.0"
 description = ""
-authors = ["Anonymous4045 <99518880+Anonymous4045@users.noreply.github.com>"]
+authors = ["Anonymous4045 <contact@anon4045.email>"]
 readme = "README.md"
-packages = [{include = "pyweek_34"}]
+packages = [{include = "escape_velocity"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+arcade = "^2.6.17"
+loguru = "^0.7.2"
 
 
 [build-system]
