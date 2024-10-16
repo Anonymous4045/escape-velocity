@@ -61,9 +61,3 @@ class MyGame(arcade.Window):
 
         if key_code in self.pressed_keys:
             self.pressed_keys.remove(key_code)
-
-
-    def player_ground_collision(self, *args, **kwargs):
-        """Handle the player colliding with the ground"""
-
-        self.setup()

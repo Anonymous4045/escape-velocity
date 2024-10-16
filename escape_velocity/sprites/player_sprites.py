@@ -14,7 +14,7 @@ class Player(arcade.Sprite):
     def __init__(self, game):
         super().__init__(PLAYER_DIR / "rover.png")
 
-        self.game = game
+        self.game: arcade.Window = game
 
         self.speed = PLAYER_SPEED
         self.rotation = PLAYER_ROTATION
@@ -66,4 +66,6 @@ class Player(arcade.Sprite):
         )
 
     def hit_ground(self, *args):
+        """Player collided with the ground"""
+
         self.game.setup()
