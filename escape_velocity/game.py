@@ -50,12 +50,17 @@ class MyGame(arcade.Window):
     def on_key_press(self, key_code, modifiers):
         """Update set of pressed keys"""
 
-        self.pressed_keys.add(key_code)
+        if key_code not in self.pressed_keys:
+            self.pressed_keys.add(key_code)
+
+        if key_code == arcade.key.Q:
+            self.close()
 
     def on_key_release(self, key_code, modifiers):
         """Update set of pressed keys"""
 
-        self.pressed_keys.remove(key_code)
+        if key_code in self.pressed_keys:
+            self.pressed_keys.remove(key_code)
 
 
     def player_ground_collision(self, *args, **kwargs):
